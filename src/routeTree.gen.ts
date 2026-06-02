@@ -19,9 +19,11 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CategoriesRouteImport } from './routes/categories'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as DashboardWishlistRouteImport } from './routes/dashboard.wishlist'
 import { Route as DashboardTransactionsRouteImport } from './routes/dashboard.transactions'
@@ -32,6 +34,17 @@ import { Route as DashboardDownloadsRouteImport } from './routes/dashboard.downl
 import { Route as DashboardChangePasswordRouteImport } from './routes/dashboard.change-password'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminRevenueRouteImport } from './routes/admin.revenue'
+import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminDownloadsRouteImport } from './routes/admin.downloads'
+import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
+import { Route as AdminCategoriesNewRouteImport } from './routes/admin.categories.new'
+import { Route as AdminProjectsIdEditRouteImport } from './routes/admin.projects.$id.edit'
+import { Route as AdminCategoriesIdEditRouteImport } from './routes/admin.categories.$id.edit'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -83,6 +96,11 @@ const CategoriesRoute = CategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -97,6 +115,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ProjectsIdRoute = ProjectsIdRouteImport.update({
   id: '/projects/$id',
@@ -148,10 +171,66 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CategoriesRoute,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRevenueRoute = AdminRevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDownloadsRoute = AdminDownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
+const AdminCategoriesNewRoute = AdminCategoriesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminCategoriesRoute,
+} as any)
+const AdminProjectsIdEditRoute = AdminProjectsIdEditRouteImport.update({
+  id: '/$id/edit',
+  path: '/$id/edit',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
+const AdminCategoriesIdEditRoute = AdminCategoriesIdEditRouteImport.update({
+  id: '/$id/edit',
+  path: '/$id/edit',
+  getParentRoute: () => AdminCategoriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/categories': typeof CategoriesRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -162,6 +241,13 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/admin/categories': typeof AdminCategoriesRouteWithChildren
+  '/admin/downloads': typeof AdminDownloadsRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/revenue': typeof AdminRevenueRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -172,7 +258,12 @@ export interface FileRoutesByFullPath {
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/admin/categories/new': typeof AdminCategoriesNewRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -186,6 +277,13 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/admin/categories': typeof AdminCategoriesRouteWithChildren
+  '/admin/downloads': typeof AdminDownloadsRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/revenue': typeof AdminRevenueRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -196,12 +294,18 @@ export interface FileRoutesByTo {
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/admin/categories/new': typeof AdminCategoriesNewRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/categories': typeof CategoriesRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -212,6 +316,13 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/admin/categories': typeof AdminCategoriesRouteWithChildren
+  '/admin/downloads': typeof AdminDownloadsRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/projects': typeof AdminProjectsRouteWithChildren
+  '/admin/revenue': typeof AdminRevenueRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -222,13 +333,19 @@ export interface FileRoutesById {
   '/dashboard/transactions': typeof DashboardTransactionsRoute
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/admin/categories/new': typeof AdminCategoriesNewRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/categories'
     | '/contact'
     | '/dashboard'
@@ -239,6 +356,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-email'
+    | '/admin/categories'
+    | '/admin/downloads'
+    | '/admin/orders'
+    | '/admin/projects'
+    | '/admin/revenue'
+    | '/admin/settings'
+    | '/admin/users'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -249,7 +373,12 @@ export interface FileRouteTypes {
     | '/dashboard/transactions'
     | '/dashboard/wishlist'
     | '/projects/$id'
+    | '/admin/'
     | '/dashboard/'
+    | '/admin/categories/new'
+    | '/admin/projects/new'
+    | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -263,6 +392,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-email'
+    | '/admin/categories'
+    | '/admin/downloads'
+    | '/admin/orders'
+    | '/admin/projects'
+    | '/admin/revenue'
+    | '/admin/settings'
+    | '/admin/users'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -273,11 +409,17 @@ export interface FileRouteTypes {
     | '/dashboard/transactions'
     | '/dashboard/wishlist'
     | '/projects/$id'
+    | '/admin'
     | '/dashboard'
+    | '/admin/categories/new'
+    | '/admin/projects/new'
+    | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/edit'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/categories'
     | '/contact'
     | '/dashboard'
@@ -288,6 +430,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-email'
+    | '/admin/categories'
+    | '/admin/downloads'
+    | '/admin/orders'
+    | '/admin/projects'
+    | '/admin/revenue'
+    | '/admin/settings'
+    | '/admin/users'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -298,12 +447,18 @@ export interface FileRouteTypes {
     | '/dashboard/transactions'
     | '/dashboard/wishlist'
     | '/projects/$id'
+    | '/admin/'
     | '/dashboard/'
+    | '/admin/categories/new'
+    | '/admin/projects/new'
+    | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CategoriesRoute: typeof CategoriesRouteWithChildren
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -390,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -410,6 +572,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/projects/$id': {
       id: '/projects/$id'
@@ -481,8 +650,137 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesSlugRouteImport
       parentRoute: typeof CategoriesRoute
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/revenue': {
+      id: '/admin/revenue'
+      path: '/revenue'
+      fullPath: '/admin/revenue'
+      preLoaderRoute: typeof AdminRevenueRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/downloads': {
+      id: '/admin/downloads'
+      path: '/downloads'
+      fullPath: '/admin/downloads'
+      preLoaderRoute: typeof AdminDownloadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/new': {
+      id: '/admin/projects/new'
+      path: '/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminProjectsNewRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
+    '/admin/categories/new': {
+      id: '/admin/categories/new'
+      path: '/new'
+      fullPath: '/admin/categories/new'
+      preLoaderRoute: typeof AdminCategoriesNewRouteImport
+      parentRoute: typeof AdminCategoriesRoute
+    }
+    '/admin/projects/$id/edit': {
+      id: '/admin/projects/$id/edit'
+      path: '/$id/edit'
+      fullPath: '/admin/projects/$id/edit'
+      preLoaderRoute: typeof AdminProjectsIdEditRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
+    '/admin/categories/$id/edit': {
+      id: '/admin/categories/$id/edit'
+      path: '/$id/edit'
+      fullPath: '/admin/categories/$id/edit'
+      preLoaderRoute: typeof AdminCategoriesIdEditRouteImport
+      parentRoute: typeof AdminCategoriesRoute
+    }
   }
 }
+
+interface AdminCategoriesRouteChildren {
+  AdminCategoriesNewRoute: typeof AdminCategoriesNewRoute
+  AdminCategoriesIdEditRoute: typeof AdminCategoriesIdEditRoute
+}
+
+const AdminCategoriesRouteChildren: AdminCategoriesRouteChildren = {
+  AdminCategoriesNewRoute: AdminCategoriesNewRoute,
+  AdminCategoriesIdEditRoute: AdminCategoriesIdEditRoute,
+}
+
+const AdminCategoriesRouteWithChildren = AdminCategoriesRoute._addFileChildren(
+  AdminCategoriesRouteChildren,
+)
+
+interface AdminProjectsRouteChildren {
+  AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+  AdminProjectsIdEditRoute: typeof AdminProjectsIdEditRoute
+}
+
+const AdminProjectsRouteChildren: AdminProjectsRouteChildren = {
+  AdminProjectsNewRoute: AdminProjectsNewRoute,
+  AdminProjectsIdEditRoute: AdminProjectsIdEditRoute,
+}
+
+const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
+  AdminProjectsRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminCategoriesRoute: typeof AdminCategoriesRouteWithChildren
+  AdminDownloadsRoute: typeof AdminDownloadsRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminProjectsRoute: typeof AdminProjectsRouteWithChildren
+  AdminRevenueRoute: typeof AdminRevenueRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriesRoute: AdminCategoriesRouteWithChildren,
+  AdminDownloadsRoute: AdminDownloadsRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminProjectsRoute: AdminProjectsRouteWithChildren,
+  AdminRevenueRoute: AdminRevenueRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CategoriesRouteChildren {
   CategoriesSlugRoute: typeof CategoriesSlugRoute
@@ -525,6 +823,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   CategoriesRoute: CategoriesRouteWithChildren,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,

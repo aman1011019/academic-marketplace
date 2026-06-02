@@ -100,7 +100,7 @@ function Page() {
             <p className="mt-5 text-muted-foreground">{project.description}</p>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              {project.technologies.map((t) => <Badge key={t} variant="outline">{t}</Badge>)}
+              {project.technologies.map((t: string) => <Badge key={t} variant="outline">{t}</Badge>)}
             </div>
 
             <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-soft">
@@ -122,7 +122,7 @@ function Page() {
                 </Button>
               </div>
               <ul className="mt-6 space-y-2 text-sm">
-                {project.includedFiles.map((f) => (
+                {project.includedFiles.map((f: string) => (
                   <li key={f} className="flex items-center gap-2"><Check className="h-4 w-4 text-success" />{f}</li>
                 ))}
               </ul>
@@ -143,7 +143,7 @@ function Page() {
             </TabsContent>
             <TabsContent value="features" className="mt-6">
               <ul className="max-w-2xl space-y-3">
-                {project.features.map((f) => (
+                {project.features.map((f: string) => (
                   <li key={f} className="flex gap-3"><Check className="mt-0.5 h-5 w-5 shrink-0 text-success" /><span>{f}</span></li>
                 ))}
               </ul>

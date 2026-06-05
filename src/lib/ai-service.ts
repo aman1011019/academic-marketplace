@@ -151,7 +151,7 @@ export async function smartSearch(q: string) {
   await delay(500);
   const term = q.toLowerCase();
   return projects
-    .map((p) => ({ p, score: (p.title + " " + p.description + " " + p.tech.join(" ") + " " + p.category).toLowerCase().split(term).length - 1 }))
+    .map((p) => ({ p, score: (p.title + " " + p.description + " " + p.technologies.join(" ") + " " + p.category).toLowerCase().split(term).length - 1 }))
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .map((x) => x.p)

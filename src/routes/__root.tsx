@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppProviders } from "@/lib/store";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { FloatingChatbot } from "@/components/ai/FloatingChatbot";
 
 function NotFoundComponent() {
   return (
@@ -84,7 +85,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const path = useRouterState({ select: (s) => s.location.pathname });
-  const isDash = path.startsWith("/dashboard") || path.startsWith("/admin");
+  const isDash = path.startsWith("/dashboard") || path.startsWith("/admin") || path.startsWith("/ai");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -96,6 +97,7 @@ function RootComponent() {
           </div>
           {!isDash && <Footer />}
         </div>
+        <FloatingChatbot />
         <Toaster position="top-right" richColors />
       </AppProviders>
     </QueryClientProvider>

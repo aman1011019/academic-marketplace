@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { toast } from "sonner";
 import type { Project } from "./mock-data";
 import { projects } from "./mock-data";
+import { AIProvider } from "./ai-context";
 
 // ----- Theme -----
 type Theme = "light" | "dark";
@@ -143,7 +144,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ListProvider>{children}</ListProvider>
+        <ListProvider>
+          <AIProvider>{children}</AIProvider>
+        </ListProvider>
       </AuthProvider>
     </ThemeProvider>
   );

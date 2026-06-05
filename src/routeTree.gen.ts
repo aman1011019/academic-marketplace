@@ -19,10 +19,12 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CategoriesRouteImport } from './routes/categories'
+import { Route as AiRouteImport } from './routes/ai'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as DashboardWishlistRouteImport } from './routes/dashboard.wishlist'
@@ -34,6 +36,16 @@ import { Route as DashboardDownloadsRouteImport } from './routes/dashboard.downl
 import { Route as DashboardChangePasswordRouteImport } from './routes/dashboard.change-password'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
+import { Route as AiVivaGeneratorRouteImport } from './routes/ai.viva-generator'
+import { Route as AiSmartSearchRouteImport } from './routes/ai.smart-search'
+import { Route as AiResumeBuilderRouteImport } from './routes/ai.resume-builder'
+import { Route as AiResearchAssistantRouteImport } from './routes/ai.research-assistant'
+import { Route as AiProjectExplainerRouteImport } from './routes/ai.project-explainer'
+import { Route as AiProjectAdvisorRouteImport } from './routes/ai.project-advisor'
+import { Route as AiPptGeneratorRouteImport } from './routes/ai.ppt-generator'
+import { Route as AiDocumentAnalyzerRouteImport } from './routes/ai.document-analyzer'
+import { Route as AiCareerAdvisorRouteImport } from './routes/ai.career-advisor'
+import { Route as AiAssistantRouteImport } from './routes/ai.assistant'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminRevenueRouteImport } from './routes/admin.revenue'
@@ -96,6 +108,11 @@ const CategoriesRoute = CategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiRoute = AiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -115,6 +132,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const AiIndexRoute = AiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AiRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -170,6 +192,56 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => CategoriesRoute,
+} as any)
+const AiVivaGeneratorRoute = AiVivaGeneratorRouteImport.update({
+  id: '/viva-generator',
+  path: '/viva-generator',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiSmartSearchRoute = AiSmartSearchRouteImport.update({
+  id: '/smart-search',
+  path: '/smart-search',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiResumeBuilderRoute = AiResumeBuilderRouteImport.update({
+  id: '/resume-builder',
+  path: '/resume-builder',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiResearchAssistantRoute = AiResearchAssistantRouteImport.update({
+  id: '/research-assistant',
+  path: '/research-assistant',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiProjectExplainerRoute = AiProjectExplainerRouteImport.update({
+  id: '/project-explainer',
+  path: '/project-explainer',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiProjectAdvisorRoute = AiProjectAdvisorRouteImport.update({
+  id: '/project-advisor',
+  path: '/project-advisor',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiPptGeneratorRoute = AiPptGeneratorRouteImport.update({
+  id: '/ppt-generator',
+  path: '/ppt-generator',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiDocumentAnalyzerRoute = AiDocumentAnalyzerRouteImport.update({
+  id: '/document-analyzer',
+  path: '/document-analyzer',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiCareerAdvisorRoute = AiCareerAdvisorRouteImport.update({
+  id: '/career-advisor',
+  path: '/career-advisor',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiAssistantRoute = AiAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AiRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -231,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai': typeof AiRouteWithChildren
   '/categories': typeof CategoriesRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -248,6 +321,16 @@ export interface FileRoutesByFullPath {
   '/admin/revenue': typeof AdminRevenueRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai/assistant': typeof AiAssistantRoute
+  '/ai/career-advisor': typeof AiCareerAdvisorRoute
+  '/ai/document-analyzer': typeof AiDocumentAnalyzerRoute
+  '/ai/ppt-generator': typeof AiPptGeneratorRoute
+  '/ai/project-advisor': typeof AiProjectAdvisorRoute
+  '/ai/project-explainer': typeof AiProjectExplainerRoute
+  '/ai/research-assistant': typeof AiResearchAssistantRoute
+  '/ai/resume-builder': typeof AiResumeBuilderRoute
+  '/ai/smart-search': typeof AiSmartSearchRoute
+  '/ai/viva-generator': typeof AiVivaGeneratorRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -259,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -284,6 +368,16 @@ export interface FileRoutesByTo {
   '/admin/revenue': typeof AdminRevenueRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai/assistant': typeof AiAssistantRoute
+  '/ai/career-advisor': typeof AiCareerAdvisorRoute
+  '/ai/document-analyzer': typeof AiDocumentAnalyzerRoute
+  '/ai/ppt-generator': typeof AiPptGeneratorRoute
+  '/ai/project-advisor': typeof AiProjectAdvisorRoute
+  '/ai/project-explainer': typeof AiProjectExplainerRoute
+  '/ai/research-assistant': typeof AiResearchAssistantRoute
+  '/ai/resume-builder': typeof AiResumeBuilderRoute
+  '/ai/smart-search': typeof AiSmartSearchRoute
+  '/ai/viva-generator': typeof AiVivaGeneratorRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -295,6 +389,7 @@ export interface FileRoutesByTo {
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/admin': typeof AdminIndexRoute
+  '/ai': typeof AiIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -306,6 +401,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai': typeof AiRouteWithChildren
   '/categories': typeof CategoriesRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -323,6 +419,16 @@ export interface FileRoutesById {
   '/admin/revenue': typeof AdminRevenueRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai/assistant': typeof AiAssistantRoute
+  '/ai/career-advisor': typeof AiCareerAdvisorRoute
+  '/ai/document-analyzer': typeof AiDocumentAnalyzerRoute
+  '/ai/ppt-generator': typeof AiPptGeneratorRoute
+  '/ai/project-advisor': typeof AiProjectAdvisorRoute
+  '/ai/project-explainer': typeof AiProjectExplainerRoute
+  '/ai/research-assistant': typeof AiResearchAssistantRoute
+  '/ai/resume-builder': typeof AiResumeBuilderRoute
+  '/ai/smart-search': typeof AiSmartSearchRoute
+  '/ai/viva-generator': typeof AiVivaGeneratorRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/dashboard/change-password': typeof DashboardChangePasswordRoute
@@ -334,6 +440,7 @@ export interface FileRoutesById {
   '/dashboard/wishlist': typeof DashboardWishlistRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
@@ -346,6 +453,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/ai'
     | '/categories'
     | '/contact'
     | '/dashboard'
@@ -363,6 +471,16 @@ export interface FileRouteTypes {
     | '/admin/revenue'
     | '/admin/settings'
     | '/admin/users'
+    | '/ai/assistant'
+    | '/ai/career-advisor'
+    | '/ai/document-analyzer'
+    | '/ai/ppt-generator'
+    | '/ai/project-advisor'
+    | '/ai/project-explainer'
+    | '/ai/research-assistant'
+    | '/ai/resume-builder'
+    | '/ai/smart-search'
+    | '/ai/viva-generator'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -374,6 +492,7 @@ export interface FileRouteTypes {
     | '/dashboard/wishlist'
     | '/projects/$id'
     | '/admin/'
+    | '/ai/'
     | '/dashboard/'
     | '/admin/categories/new'
     | '/admin/projects/new'
@@ -399,6 +518,16 @@ export interface FileRouteTypes {
     | '/admin/revenue'
     | '/admin/settings'
     | '/admin/users'
+    | '/ai/assistant'
+    | '/ai/career-advisor'
+    | '/ai/document-analyzer'
+    | '/ai/ppt-generator'
+    | '/ai/project-advisor'
+    | '/ai/project-explainer'
+    | '/ai/research-assistant'
+    | '/ai/resume-builder'
+    | '/ai/smart-search'
+    | '/ai/viva-generator'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -410,6 +539,7 @@ export interface FileRouteTypes {
     | '/dashboard/wishlist'
     | '/projects/$id'
     | '/admin'
+    | '/ai'
     | '/dashboard'
     | '/admin/categories/new'
     | '/admin/projects/new'
@@ -420,6 +550,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/ai'
     | '/categories'
     | '/contact'
     | '/dashboard'
@@ -437,6 +568,16 @@ export interface FileRouteTypes {
     | '/admin/revenue'
     | '/admin/settings'
     | '/admin/users'
+    | '/ai/assistant'
+    | '/ai/career-advisor'
+    | '/ai/document-analyzer'
+    | '/ai/ppt-generator'
+    | '/ai/project-advisor'
+    | '/ai/project-explainer'
+    | '/ai/research-assistant'
+    | '/ai/resume-builder'
+    | '/ai/smart-search'
+    | '/ai/viva-generator'
     | '/categories/$slug'
     | '/checkout/success'
     | '/dashboard/change-password'
@@ -448,6 +589,7 @@ export interface FileRouteTypes {
     | '/dashboard/wishlist'
     | '/projects/$id'
     | '/admin/'
+    | '/ai/'
     | '/dashboard/'
     | '/admin/categories/new'
     | '/admin/projects/new'
@@ -459,6 +601,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AiRoute: typeof AiRouteWithChildren
   CategoriesRoute: typeof CategoriesRouteWithChildren
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -545,6 +688,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai': {
+      id: '/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -572,6 +722,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/ai/': {
+      id: '/ai/'
+      path: '/'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AiIndexRouteImport
+      parentRoute: typeof AiRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -649,6 +806,76 @@ declare module '@tanstack/react-router' {
       fullPath: '/categories/$slug'
       preLoaderRoute: typeof CategoriesSlugRouteImport
       parentRoute: typeof CategoriesRoute
+    }
+    '/ai/viva-generator': {
+      id: '/ai/viva-generator'
+      path: '/viva-generator'
+      fullPath: '/ai/viva-generator'
+      preLoaderRoute: typeof AiVivaGeneratorRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/smart-search': {
+      id: '/ai/smart-search'
+      path: '/smart-search'
+      fullPath: '/ai/smart-search'
+      preLoaderRoute: typeof AiSmartSearchRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/resume-builder': {
+      id: '/ai/resume-builder'
+      path: '/resume-builder'
+      fullPath: '/ai/resume-builder'
+      preLoaderRoute: typeof AiResumeBuilderRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/research-assistant': {
+      id: '/ai/research-assistant'
+      path: '/research-assistant'
+      fullPath: '/ai/research-assistant'
+      preLoaderRoute: typeof AiResearchAssistantRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/project-explainer': {
+      id: '/ai/project-explainer'
+      path: '/project-explainer'
+      fullPath: '/ai/project-explainer'
+      preLoaderRoute: typeof AiProjectExplainerRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/project-advisor': {
+      id: '/ai/project-advisor'
+      path: '/project-advisor'
+      fullPath: '/ai/project-advisor'
+      preLoaderRoute: typeof AiProjectAdvisorRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/ppt-generator': {
+      id: '/ai/ppt-generator'
+      path: '/ppt-generator'
+      fullPath: '/ai/ppt-generator'
+      preLoaderRoute: typeof AiPptGeneratorRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/document-analyzer': {
+      id: '/ai/document-analyzer'
+      path: '/document-analyzer'
+      fullPath: '/ai/document-analyzer'
+      preLoaderRoute: typeof AiDocumentAnalyzerRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/career-advisor': {
+      id: '/ai/career-advisor'
+      path: '/career-advisor'
+      fullPath: '/ai/career-advisor'
+      preLoaderRoute: typeof AiCareerAdvisorRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/assistant': {
+      id: '/ai/assistant'
+      path: '/assistant'
+      fullPath: '/ai/assistant'
+      preLoaderRoute: typeof AiAssistantRouteImport
+      parentRoute: typeof AiRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -782,6 +1009,36 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AiRouteChildren {
+  AiAssistantRoute: typeof AiAssistantRoute
+  AiCareerAdvisorRoute: typeof AiCareerAdvisorRoute
+  AiDocumentAnalyzerRoute: typeof AiDocumentAnalyzerRoute
+  AiPptGeneratorRoute: typeof AiPptGeneratorRoute
+  AiProjectAdvisorRoute: typeof AiProjectAdvisorRoute
+  AiProjectExplainerRoute: typeof AiProjectExplainerRoute
+  AiResearchAssistantRoute: typeof AiResearchAssistantRoute
+  AiResumeBuilderRoute: typeof AiResumeBuilderRoute
+  AiSmartSearchRoute: typeof AiSmartSearchRoute
+  AiVivaGeneratorRoute: typeof AiVivaGeneratorRoute
+  AiIndexRoute: typeof AiIndexRoute
+}
+
+const AiRouteChildren: AiRouteChildren = {
+  AiAssistantRoute: AiAssistantRoute,
+  AiCareerAdvisorRoute: AiCareerAdvisorRoute,
+  AiDocumentAnalyzerRoute: AiDocumentAnalyzerRoute,
+  AiPptGeneratorRoute: AiPptGeneratorRoute,
+  AiProjectAdvisorRoute: AiProjectAdvisorRoute,
+  AiProjectExplainerRoute: AiProjectExplainerRoute,
+  AiResearchAssistantRoute: AiResearchAssistantRoute,
+  AiResumeBuilderRoute: AiResumeBuilderRoute,
+  AiSmartSearchRoute: AiSmartSearchRoute,
+  AiVivaGeneratorRoute: AiVivaGeneratorRoute,
+  AiIndexRoute: AiIndexRoute,
+}
+
+const AiRouteWithChildren = AiRoute._addFileChildren(AiRouteChildren)
+
 interface CategoriesRouteChildren {
   CategoriesSlugRoute: typeof CategoriesSlugRoute
 }
@@ -824,6 +1081,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  AiRoute: AiRouteWithChildren,
   CategoriesRoute: CategoriesRouteWithChildren,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,

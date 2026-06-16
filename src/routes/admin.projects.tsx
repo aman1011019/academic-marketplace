@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, Edit, Trash2, Search } from "lucide-react";
+import { Plus, Edit, Trash2, Search, Users } from "lucide-react";
 import { useMemo, useState } from "react";
 import { DashHeader } from "@/components/PageBits";
 import { projects, getCategory } from "@/lib/mock-data";
@@ -38,6 +38,7 @@ export const Route = createFileRoute("/admin/projects")({
                   <td className="px-6 py-3">₹{p.price}</td>
                   <td className="px-6 py-3">{p.downloads}</td>
                   <td className="px-6 py-3 text-right">
+                    <Link to="/admin/projects/$id/buyers" params={{ id: p.id }}><Button size="sm" variant="ghost" title="View buyers"><Users className="h-4 w-4" /></Button></Link>
                     <Link to="/admin/projects/$id/edit" params={{ id: p.id }}><Button size="sm" variant="ghost"><Edit className="h-4 w-4" /></Button></Link>
                     <Button size="sm" variant="ghost" onClick={() => toast.error("Demo only")}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                   </td>

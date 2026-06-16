@@ -56,6 +56,7 @@ import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminCategoriesNewRouteImport } from './routes/admin.categories.new'
 import { Route as AdminProjectsIdEditRouteImport } from './routes/admin.projects.$id.edit'
+import { Route as AdminProjectsIdBuyersRouteImport } from './routes/admin.projects.$id.buyers'
 import { Route as AdminCategoriesIdEditRouteImport } from './routes/admin.categories.$id.edit'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
@@ -293,6 +294,11 @@ const AdminProjectsIdEditRoute = AdminProjectsIdEditRouteImport.update({
   path: '/$id/edit',
   getParentRoute: () => AdminProjectsRoute,
 } as any)
+const AdminProjectsIdBuyersRoute = AdminProjectsIdBuyersRouteImport.update({
+  id: '/$id/buyers',
+  path: '/$id/buyers',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
 const AdminCategoriesIdEditRoute = AdminCategoriesIdEditRouteImport.update({
   id: '/$id/edit',
   path: '/$id/edit',
@@ -347,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/buyers': typeof AdminProjectsIdBuyersRoute
   '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -394,6 +401,7 @@ export interface FileRoutesByTo {
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/buyers': typeof AdminProjectsIdBuyersRoute
   '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRoutesById {
@@ -445,6 +453,7 @@ export interface FileRoutesById {
   '/admin/categories/new': typeof AdminCategoriesNewRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/categories/$id/edit': typeof AdminCategoriesIdEditRoute
+  '/admin/projects/$id/buyers': typeof AdminProjectsIdBuyersRoute
   '/admin/projects/$id/edit': typeof AdminProjectsIdEditRoute
 }
 export interface FileRouteTypes {
@@ -497,6 +506,7 @@ export interface FileRouteTypes {
     | '/admin/categories/new'
     | '/admin/projects/new'
     | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/buyers'
     | '/admin/projects/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -544,6 +554,7 @@ export interface FileRouteTypes {
     | '/admin/categories/new'
     | '/admin/projects/new'
     | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/buyers'
     | '/admin/projects/$id/edit'
   id:
     | '__root__'
@@ -594,6 +605,7 @@ export interface FileRouteTypes {
     | '/admin/categories/new'
     | '/admin/projects/new'
     | '/admin/categories/$id/edit'
+    | '/admin/projects/$id/buyers'
     | '/admin/projects/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -947,6 +959,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjectsIdEditRouteImport
       parentRoute: typeof AdminProjectsRoute
     }
+    '/admin/projects/$id/buyers': {
+      id: '/admin/projects/$id/buyers'
+      path: '/$id/buyers'
+      fullPath: '/admin/projects/$id/buyers'
+      preLoaderRoute: typeof AdminProjectsIdBuyersRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
     '/admin/categories/$id/edit': {
       id: '/admin/categories/$id/edit'
       path: '/$id/edit'
@@ -973,11 +992,13 @@ const AdminCategoriesRouteWithChildren = AdminCategoriesRoute._addFileChildren(
 
 interface AdminProjectsRouteChildren {
   AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+  AdminProjectsIdBuyersRoute: typeof AdminProjectsIdBuyersRoute
   AdminProjectsIdEditRoute: typeof AdminProjectsIdEditRoute
 }
 
 const AdminProjectsRouteChildren: AdminProjectsRouteChildren = {
   AdminProjectsNewRoute: AdminProjectsNewRoute,
+  AdminProjectsIdBuyersRoute: AdminProjectsIdBuyersRoute,
   AdminProjectsIdEditRoute: AdminProjectsIdEditRoute,
 }
 

@@ -52,8 +52,13 @@ function Page() {
       amount: project.price,
       name: project.title,
       onSuccess: () => {
-        purchase(project.id);
-        navigate({ to: "/checkout/success", search: { id: project.id } });
+        const txn = purchase(project.id, {
+          name: user.name,
+          mobile: user.mobile,
+          college: user.college,
+          email: user.email,
+        });
+        navigate({ to: "/checkout/success", search: { id: project.id, txn: txn.id } });
       },
     });
   };

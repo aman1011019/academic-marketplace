@@ -13,6 +13,18 @@ const fileMeta = [
   { name: "Viva Questions", size: "420 KB", icon: FileQuestion },
 ];
 
+function startDownload(fileName: string, projectTitle: string) {
+  const id = `dl-${Date.now()}`;
+  const date = new Date().toLocaleString();
+  toast.loading(`Downloading ${fileName}...`, { id, description: projectTitle });
+  setTimeout(() => {
+    toast.loading("Download started", { id, description: `${fileName} · ${projectTitle}` });
+  }, 600);
+  setTimeout(() => {
+    toast.success("Downloaded successfully", { id, description: `${fileName} · ${projectTitle} · ${date}` });
+  }, 1600);
+}
+
 export const Route = createFileRoute("/dashboard/downloads")({
   head: () => ({ meta: [{ title: "Download center — ProjectHub" }] }),
   component: () => {
@@ -42,7 +54,7 @@ export const Route = createFileRoute("/dashboard/downloads")({
                         <p className="truncate text-sm font-medium">{f.name}</p>
                         <p className="text-xs text-muted-foreground">{f.size}</p>
                       </div>
-                      <Button size="sm" variant="ghost" onClick={() => toast.success(`Downloading ${f.name}...`)}>
+                      <Button size="sm" variant="ghost" onClick={() => startDownload(f.name, p.title)} aria-label={`Download ${f.name}`}>
                         <Download className="h-4 w-4" />
                       </Button>
                     </div>

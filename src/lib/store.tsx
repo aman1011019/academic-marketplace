@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import type { Project } from "./mock-data";
 import { projects } from "./mock-data";
 import { AIProvider } from "./ai-context";
 
@@ -30,11 +29,21 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 export const useTheme = () => useContext(ThemeContext);
 
 // ----- Auth -----
-export type User = { id: string; name: string; email: string; role: "user" | "admin"; avatar?: string };
+export type User = {
+  id: string;
+  name: string;
+  mobile: string;
+  college: string;
+  email?: string;
+  role: "user" | "admin";
+  avatar?: string;
+};
+export type RegisterPayload = { name: string; mobile: string; college: string; email?: string; password: string };
 type AuthCtx = {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  login: (identifier: string, password: string) => Promise<void>;
+  register: (payload: RegisterPayload) => Promise<void>;
+  updateProfile: (patch: Partial<Pick<User, "name" | "mobile" | "college" | "email">>) => void;
   logout: () => void;
   loading: boolean;
 };
@@ -55,35 +64,84 @@ function AuthProvider({ children }: { children: ReactNode }) {
     if (u) localStorage.setItem("auth_user", JSON.stringify(u));
     else localStorage.removeItem("auth_user");
   };
-  const login = async (email: string, password: string) => {
+  const login = async (identifier: string, password: string) => {
     await new Promise((r) => setTimeout(r, 600));
-    if (!email || !password) throw new Error("Invalid credentials");
-    const role: "user" | "admin" = email.toLowerCase().startsWith("admin") ? "admin" : "user";
-    persist({ id: "u_" + Date.now(), name: email.split("@")[0], email, role });
-    toast.success(`Welcome back, ${email.split("@")[0]}`);
+    if (!identifier || !password) throw new Error("Please enter your credentials");
+    const isEmail = identifier.includes("@");
+    const role: "user" | "admin" = identifier.toLowerCase().startsWith("admin") ? "admin" : "user";
+    // Try restore existing profile if available
+    let restored: User | null = null;
+    try {
+      const saved = localStorage.getItem("auth_user");
+      if (saved) {
+        const u = JSON.parse(saved) as User;
+        if (u.email === identifier || u.mobile === identifier) restored = u;
+      }
+    } catch {}
+    persist(
+      restored ?? {
+        id: "u_" + Date.now(),
+        name: isEmail ? identifier.split("@")[0] : "Student",
+        mobile: isEmail ? "" : identifier,
+        college: "",
+        email: isEmail ? identifier : undefined,
+        role,
+      },
+    );
+    toast.success(`Welcome back!`);
   };
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (payload: RegisterPayload) => {
     await new Promise((r) => setTimeout(r, 600));
-    if (!name || !email || !password) throw new Error("Missing fields");
-    persist({ id: "u_" + Date.now(), name, email, role: "user" });
-    toast.success("Account created!");
+    if (!payload.name || !payload.mobile || !payload.college || !payload.password) throw new Error("Missing required fields");
+    const role: "user" | "admin" = (payload.email ?? "").toLowerCase().startsWith("admin") ? "admin" : "user";
+    persist({
+      id: "u_" + Date.now(),
+      name: payload.name,
+      mobile: payload.mobile,
+      college: payload.college,
+      email: payload.email || undefined,
+      role,
+    });
+    toast.success("Account created successfully!");
+  };
+  const updateProfile: AuthCtx["updateProfile"] = (patch) => {
+    setUser((u) => {
+      if (!u) return u;
+      const next = { ...u, ...patch };
+      localStorage.setItem("auth_user", JSON.stringify(next));
+      return next;
+    });
   };
   const logout = () => {
     persist(null);
     toast("Signed out");
   };
-  return <AuthContext.Provider value={{ user, login, register, logout, loading }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, login, register, updateProfile, logout, loading }}>{children}</AuthContext.Provider>;
 }
 export const useAuth = () => useContext(AuthContext);
 
-// ----- Wishlist + Purchases -----
+// ----- Wishlist + Purchases + Transactions -----
+export type Transaction = {
+  id: string;
+  projectId: string;
+  projectTitle: string;
+  amount: number;
+  date: string;
+  status: "Completed" | "Pending" | "Failed";
+  buyerName: string;
+  mobile: string;
+  college: string;
+  email?: string;
+};
+
 type ListCtx = {
   wishlist: string[];
   toggleWish: (id: string) => void;
   isWished: (id: string) => boolean;
   purchases: string[];
-  purchase: (id: string) => void;
+  purchase: (id: string, buyer: { name: string; mobile: string; college: string; email?: string }) => Transaction;
   isPurchased: (id: string) => boolean;
+  transactions: Transaction[];
   notifications: { id: string; title: string; body: string; date: string; read: boolean }[];
   markAllRead: () => void;
 };
@@ -92,6 +150,7 @@ const ListContext = createContext<ListCtx>({} as ListCtx);
 function ListProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [purchases, setPurchases] = useState<string[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [notifications, setNotifications] = useState<ListCtx["notifications"]>([
     { id: "n1", title: "Welcome to ProjectHub", body: "Browse 700+ academic projects across 14 categories.", date: new Date().toISOString(), read: false },
     { id: "n2", title: "New AI projects added", body: "12 new AI/ML projects are now live.", date: new Date(Date.now() - 86400000).toISOString(), read: false },
@@ -102,12 +161,38 @@ function ListProvider({ children }: { children: ReactNode }) {
     try {
       const w = localStorage.getItem("wishlist");
       const p = localStorage.getItem("purchases");
+      const t = localStorage.getItem("transactions");
       if (w) setWishlist(JSON.parse(w));
       if (p) setPurchases(JSON.parse(p));
+      if (t) setTransactions(JSON.parse(t));
     } catch {}
   }, []);
   useEffect(() => { localStorage.setItem("wishlist", JSON.stringify(wishlist)); }, [wishlist]);
   useEffect(() => { localStorage.setItem("purchases", JSON.stringify(purchases)); }, [purchases]);
+  useEffect(() => { localStorage.setItem("transactions", JSON.stringify(transactions)); }, [transactions]);
+
+  const purchase: ListCtx["purchase"] = (id, buyer) => {
+    setPurchases((p) => (p.includes(id) ? p : [...p, id]));
+    const proj = projects.find((x) => x.id === id);
+    const txn: Transaction = {
+      id: "TXN" + Math.random().toString(36).slice(2, 10).toUpperCase(),
+      projectId: id,
+      projectTitle: proj?.title ?? id,
+      amount: proj?.price ?? 0,
+      date: new Date().toISOString(),
+      status: "Completed",
+      buyerName: buyer.name,
+      mobile: buyer.mobile,
+      college: buyer.college,
+      email: buyer.email,
+    };
+    setTransactions((t) => [txn, ...t]);
+    setNotifications((n) => [
+      { id: "n" + Date.now(), title: "Purchase successful", body: `You can now download "${proj?.title}".`, date: new Date().toISOString(), read: false },
+      ...n,
+    ]);
+    return txn;
+  };
 
   return (
     <ListContext.Provider
@@ -121,15 +206,9 @@ function ListProvider({ children }: { children: ReactNode }) {
           }),
         isWished: (id) => wishlist.includes(id),
         purchases,
-        purchase: (id) => {
-          setPurchases((p) => (p.includes(id) ? p : [...p, id]));
-          const proj = projects.find((x) => x.id === id);
-          setNotifications((n) => [
-            { id: "n" + Date.now(), title: "Purchase successful", body: `You can now download "${proj?.title}".`, date: new Date().toISOString(), read: false },
-            ...n,
-          ]);
-        },
+        purchase,
         isPurchased: (id) => purchases.includes(id),
+        transactions,
         notifications,
         markAllRead: () => setNotifications((n) => n.map((x) => ({ ...x, read: true }))),
       }}
@@ -154,8 +233,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
 // ----- Mock Razorpay-style checkout -----
 export function openCheckout(opts: { amount: number; name: string; onSuccess: () => void }) {
-  // Real impl: load https://checkout.razorpay.com/v1/checkout.js and call new window.Razorpay(...).open()
-  // Mock: confirm prompt
   const ok = window.confirm(`Pay ₹${opts.amount} for "${opts.name}"?\n\n(Razorpay test mode — click OK to simulate success)`);
   if (ok) {
     toast.loading("Processing payment...", { id: "pay" });

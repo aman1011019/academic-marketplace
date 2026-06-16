@@ -147,12 +147,32 @@ export const getCategory = (slug: string) => categories.find((c) => c.slug === s
 export const getReviews = (projectId: string) => reviews.filter((r) => r.projectId === projectId);
 
 // Mock admin data
-export const mockOrders = projects.slice(0, 18).map((p, i) => ({
+export const COLLEGES = [
+  "ABC Engineering College",
+  "XYZ Institute of Technology",
+  "PQR University",
+  "St. Xavier's College",
+  "Delhi Tech University",
+  "Bangalore Institute of Management",
+  "Pune Institute of Computer Tech",
+  "VIT Vellore",
+];
+
+const studentNames = [
+  "Ananya Sharma", "Rahul Kapoor", "Priya Mehta", "Arjun Verma", "Sneha Reddy",
+  "Vikram Singh", "Ishita Joshi", "Karan Patel", "Meera Nair", "Rohan Das",
+];
+
+const mob = (i: number) => String(9000000000 + ((i * 7919 + 421) % 999999999)).slice(0, 10);
+
+export const mockOrders = projects.slice(0, 36).map((p, i) => ({
   id: `ORD${10000 + i}`,
   projectId: p.id,
   projectTitle: p.title,
-  user: ["Ananya S.", "Rahul K.", "Priya M.", "Arjun V.", "Sneha R."][i % 5],
-  email: `user${i + 1}@example.com`,
+  user: studentNames[i % studentNames.length],
+  email: `student${i + 1}@university.edu`,
+  mobile: mob(i),
+  college: COLLEGES[i % COLLEGES.length],
   amount: p.price,
   status: ["completed", "completed", "completed", "pending", "completed", "failed"][i % 6] as "completed" | "pending" | "failed",
   date: new Date(Date.now() - i * 86400000).toISOString(),
@@ -160,8 +180,10 @@ export const mockOrders = projects.slice(0, 18).map((p, i) => ({
 
 export const mockUsers = Array.from({ length: 24 }).map((_, i) => ({
   id: `USR${1000 + i}`,
-  name: ["Ananya Sharma", "Rahul Kapoor", "Priya Mehta", "Arjun Verma", "Sneha Reddy", "Vikram Singh"][i % 6] + ` ${i + 1}`,
+  name: studentNames[i % studentNames.length] + ` ${i + 1}`,
   email: `user${i + 1}@example.com`,
+  mobile: mob(i + 11),
+  college: COLLEGES[i % COLLEGES.length],
   role: i === 0 ? "admin" : "user",
   joined: new Date(Date.now() - i * 86400000 * 7).toISOString(),
   purchases: (i * 3) % 8,
@@ -187,3 +209,19 @@ export const downloadsByCategory = categories.slice(0, 8).map((c) => ({
   name: c.name,
   downloads: 200 + Math.floor(Math.random() * 800),
 }));
+
+export function getProjectBuyers(projectId: string) {
+  return mockOrders.filter((o) => o.projectId === projectId);
+}
+
+export function getTopColleges(limit = 6) {
+  const counts = new Map<string, number>();
+  for (const o of mockOrders) {
+    if (o.status !== "completed") continue;
+    counts.set(o.college, (counts.get(o.college) ?? 0) + 1);
+  }
+  return Array.from(counts.entries())
+    .map(([college, purchases]) => ({ college, purchases }))
+    .sort((a, b) => b.purchases - a.purchases)
+    .slice(0, limit);
+}

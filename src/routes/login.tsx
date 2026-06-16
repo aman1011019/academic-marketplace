@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+import { AtSign, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,14 +16,19 @@ export const Route = createFileRoute("/login")({
 function Page() {
   const { login } = useAuth();
   const nav = useNavigate();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [pwd, setPwd] = useState("");
+  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!identifier.trim() || !pwd) {
+      toast.error("Please enter your mobile/email and password");
+      return;
+    }
     setLoading(true);
-    try { await login(email, pwd); nav({ to: "/dashboard" }); }
+    try { await login(identifier.trim(), pwd); nav({ to: "/dashboard" }); }
     catch (err) { toast.error((err as Error).message); }
     finally { setLoading(false); }
   };
@@ -37,10 +42,10 @@ function Page() {
         </div>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="id">Mobile Number or Email</Label>
             <div className="relative mt-1.5">
-              <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@university.edu" className="pl-9" />
+              <AtSign className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input id="id" required value={identifier} onChange={(e) => setIdentifier(e.target.value)} placeholder="10-digit mobile or you@email.com" className="pl-9" />
             </div>
           </div>
           <div>
@@ -50,7 +55,10 @@ function Page() {
             </div>
             <div className="relative mt-1.5">
               <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input id="pwd" type="password" required value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="••••••••" className="pl-9" />
+              <Input id="pwd" type={show ? "text" : "password"} required value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="••••••••" className="pl-9 pr-10" />
+              <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground" aria-label={show ? "Hide" : "Show"}>
+                {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
           </div>
           <Button type="submit" disabled={loading} className="w-full bg-gradient-primary">
@@ -61,7 +69,7 @@ function Page() {
           Don't have an account? <Link to="/register" className="font-medium text-primary hover:underline">Create one</Link>
         </p>
         <p className="mt-4 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-          <b>Demo:</b> any email/password works. Use an email starting with <code>admin</code> for admin access.
+          <b>Demo:</b> sign in with any 10-digit mobile or email. Use an email starting with <code>admin</code> for admin access.
         </p>
       </motion.div>
     </section>
